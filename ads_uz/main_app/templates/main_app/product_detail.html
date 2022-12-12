@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <div class="card">
+                <img src="{{ product.preview.url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.title }}</h5>
+                    <p class="card-text">{{ product.content }}</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{ product.price }} сум</li>
+                        <li class="list-group-item">Телефон: {{ product.contact_data }}</li>
+                    </ul>
+                    {% if user.pk == product.author.pk %}
+                    <a href="{% url 'delete_product' pk=product.pk %}" class="btn btn-danger">Удалить</a>
+                    <a href="{% url 'update_product' pk=product.pk %}" class="btn btn-success">Изменить</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

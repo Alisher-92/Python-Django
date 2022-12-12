@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'index' %}">Ads.uz</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Рубрики
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% for category in categories %}
+            <li><a class="dropdown-item" href="{% url 'category_detail' slug=category.slug %}">{{ category.name }}</a></li>
+            {% endfor %}
+            <li><hr class="dropdown-divider"></li>
+            {% if user.is_authenticated %}
+            <li><a class="dropdown-item" href="{% url 'add_category' %}">Добавить рубрику</a></li>
+            {% endif %}
+          </ul>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item ms-3">
+          <a href="{% url 'add_product' %}" class="btn btn-success">Добавить объявление</a>
+        </li>
+        {% endif %}
+      </ul>
+      <form action="{% url 'search' %}" method="get" class="d-flex me-2" role="search">
+        {% csrf_token %}
+        <input type="search" name="search_product" class="form-control me-2" placeholder="Поиск" aria-label="Поиск">
+        <button class="btn btn-outline-success" type="submit">Поиск</button>
+      </form>
+      {% if not user.is_authenticated %}
+      <a href="{% url 'auth' %}" class="btn btn-primary">Войти</a>
+      {% else %}
+      <div class="dropdown">
+        <button class="btn btn-success dropdown-toggle" id="dropdownProfile"
+                type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ user.username }}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownProfile">
+          <li><a class="dropdown-item active" href="#">Профиль</a></li>
+          <li><a class="dropdown-item" href="#">Редактировать профиль</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" href="{% url 'logout' %}">Выход</a></li>
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</nav>

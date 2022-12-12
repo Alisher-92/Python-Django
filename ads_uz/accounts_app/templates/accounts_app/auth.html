@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="login-tab" data-bs-toggle="tab"
+                            data-bs-target="#login-tab-pane" type="button" role="tab"
+                            aria-controls="login-tab-pane" aria-selected="true">Вход</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="registration-tab" data-bs-toggle="tab"
+                            data-bs-target="#registration-tab-pane" type="button" role="tab"
+                            aria-controls="registration-tab-pane" aria-selected="false">
+                        Регистрация</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="login-tab-pane" role="tabpanel"
+                     aria-labelledby="login-tab" tabindex="0">
+                    <h4>Вход</h4>
+                    {{ form.non_field_errors }}
+                    <form action="{% url 'login' %}" method="post">
+                        {% csrf_token %}
+                        <p>
+                            {{ form.username.errors }}
+                            <label for="{{ login_form.username.id_for_label }}">Логин:</label>
+                            <input class="form-control"
+                                   type="text" name="username" id="{{ login_form.username.id_for_label }}">
+                        </p>
+                        <p>
+                            {{ form.password.errors }}
+                            <label for="{{ login_form.password.id_for_label }}">Пароль:</label>
+                            <input class="form-control"
+                                   type="password" name="password" id="{{ login_form.password.id_for_label }}">
+                        </p>
+                        <button type="submit" class="btn btn-primary">Войти</button>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="registration-tab-pane" role="tabpanel"
+                     aria-labelledby="registration-tab" tabindex="0">
+                    <h4>Регистрация</h4>
+                    <form action="{% url 'register' %}" method="post">
+                        {% csrf_token %}
+                        {{ register_form.as_p }}
+                        <button class="btn btn-success">Зарегистрироваться</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}
